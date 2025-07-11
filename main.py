@@ -3,44 +3,34 @@ import mediapipe as mp
 import time
 import sys
 import signal
+import shutil
 
-
-# Define tip and joint indices for fingers
-FINGER_TIPS = [4, 8, 12, 16, 20]     # Thumb, Index, Middle, Ring, Pinky
-FINGER_PIPS = [3, 6, 10, 14, 18]
-
-def classify_letter(f): 
-    thumb = f['thumb']
-    fingers = [int(f['index']), int(f['middle']), int(f['ring']), int(f['pinky'])]
-
-    for letter, pattern in LETTER_SIGNS.items():
-        if thumb == pattern['thumb'] and fingers == pattern['fingers']:
-            return letter
-    return None
-
-
-# Handle Ctrl+C to exit cleanly
 def signal_handler(sig, frame):
     print("\nExiting...")
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
 
-# Simple finger-up check
 def finger_up(lm, tip, pip):
     return lm[tip].y < lm[pip].y
 
-# Get up/down state for each finger
 def get_finger_states(lm):
     return {
-        'thumb': lm[4].x < lm[3].x,  # simple thumb left check
+        'thumb': lm[4].x < lm[3].x,
         'index': finger_up(lm, 8, 6),
         'middle': finger_up(lm, 12, 10),
         'ring': finger_up(lm, 16, 14),
         'pinky': finger_up(lm, 20, 18)
     }
 
-# Custom pose-based classification for all letters A–Y (no J, Z)
+def classify_letter(f):
+    thumb = f['thumb']
+    fingers = [int(f['index']), int(f['middle']), int(f['ring']), int(f['pinky'])]
+    for letter, pattern in LETTER_SIGNS.items():
+        if thumb == pattern['thumb'] and fingers == pattern['fingers']:
+            return letter
+    return None
+
 LETTER_SIGNS = {
     'A':  { 'thumb': True,  'fingers': [0, 0, 0, 0] },
     'B':  { 'thumb': False, 'fingers': [1, 1, 1, 1] },
@@ -67,12 +57,12 @@ LETTER_SIGNS = {
     'Y':  { 'thumb': True,  'fingers': [0, 0, 0, 1] },
     ' ':  { 'thumb': True,  'fingers': [1, 1, 1, 1] },
 }
-# Main loop
+
 def main():
-    print("📷 ASL (A–Y) simplified gesture detection (Ctrl+C to quit)")
+    print("ASL + Finger State Detection (Ctrl+C to quit)")
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
-        print("❌ Error: Could not access camera.")
+        print("Error: Could not access camera.")
         return
 
     mp_hands = mp.solutions.hands
@@ -84,7 +74,7 @@ def main():
 
         current_word = ""
         last_letter = ""
-        interval = 0.1  # second
+        interval = 0
         last_check = 0
 
         while True:
@@ -104,17 +94,35 @@ def main():
                 if result.multi_hand_landmarks:
                     lm = result.multi_hand_landmarks[0].landmark
                     fingers = get_finger_states(lm)
+
+                    finger_list = [
+                        int(fingers['thumb']),
+                        int(fingers['index']),
+                        int(fingers['middle']),
+                        int(fingers['ring']),
+                        int(fingers['pinky']),
+                    ]
+
                     letter = classify_letter(fingers)
 
                     if letter and letter != last_letter:
                         current_word += letter
                         last_letter = letter
-                        print(f"\rCurrent word: {current_word}", end="")
-                else:
-                    last_letter = ""
+                    elif not letter:
+                        last_letter = ""
+
+                    line1 = f"Current word: {current_word}"
+                    line2 = f"Hand: {finger_list}"
+
+                    width = shutil.get_terminal_size().columns
+                    line1 = line1.ljust(width)
+                    line2 = line2.ljust(width)
+                    sys.stdout.write("\033[F\033[K")  
+                    sys.stdout.write(f"{line1}\n{line2}")
+                    sys.stdout.flush()
 
     cap.release()
-    print("\n🛑 Camera released. Goodbye.")
+    print("\n Camera released. Goodbye.")
 
 if __name__ == "__main__":
     main()
