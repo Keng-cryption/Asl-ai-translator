@@ -23,19 +23,99 @@ HTML_TEMPLATE = """
 <head>
     <title>ASL Translator</title>
     <style>
-        body { font-family: sans-serif; background: #111; color: #eee; text-align: center; padding-top: 30px; }
-        h1 { font-size: 2.5em; }
-        p, button { font-size: 1.3em; margin-top: 10px; }
-        img { margin-top: 20px; border: 4px solid #555; border-radius: 12px; }
+        /* Global styles */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #1E2229; /* Dark teal */
+            color: #fff;
+            text-align: center;
+            padding-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Main content area */
+        .main-content {
+            background-color: rgba(0, 0, 0, 0.1); /* Light gray */
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease-out;
+        }
+
+        .main-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Visual flare */
+            background-color: #1E7A54; /* Light teal */
+            border-radius: 12px 12px 0 0;
+        }
+
+        .main-content::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Visual flare */
+            background-color: #1E7A54; /* Light teal */
+            border-radius: 0 0 12px 12px;
+        }
+
+        /* Title area */
+        .title-area {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        p, button {
+            font-size: 1.3em;
+            margin-top: 10px;
+            color: #eee;
+        }
+
+        img {
+            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Clear button */
+        .clear-button {
+            background-color: #1E7A54; /* Light teal */
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .clear-button:hover {
+            background-color: #2C3E50; /* Darker light teal */
+        }
     </style>
 </head>
 <body>
-    <h1>Live ASL Translation</h1>
-    <p id="word">Loading...</p>
-    <p id="fingers">Loading...</p>
-    <button onclick="clearWord()">Clear</button>
-    <br>
-    <img id="video" src="/video_feed" width="640" height="480">
+    <div class="title-area">
+        <h1>Live ASL Translation</h1>
+        <button class="clear-button" onclick="clearWord()">Clear</button>
+    </div>
+    <div class="main-content">
+        <p id="word">Loading...</p>
+        <p id="fingers">Loading...</p>
+        <img id="video" src="/video_feed" width="640" height="480">
+    </div>
 
     <script>
         async function fetchData() {
