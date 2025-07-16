@@ -33,7 +33,7 @@ Installation
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/asl-translator.git
+git clone https://github.com/Keng-cryption/jetson-nano-AI.git
 cd asl-translator
 ```
 
