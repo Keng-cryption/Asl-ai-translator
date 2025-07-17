@@ -34,7 +34,6 @@ Installation
 
 ```bash
 git clone https://github.com/Keng-cryption/jetson-nano-AI.git
-cd asl-translator
 ```
 
 ### 2. Install Required Python Packages
