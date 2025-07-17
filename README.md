@@ -57,7 +57,7 @@ Get your token from: https://dashboard.ngrok.com/get-started/your-authtoken
 Run the App
 
 ```bash
-python app.py
+python asl_local_host.py
 ```
 
 After startup:
