@@ -87,3 +87,7 @@ Troubleshooting
 - **Ngrok not working?** Check your internet connection and ngrok token.
 - **Performance issues?** Reduce resolution or run on a faster device (like Jetson Nano or Pi 4).
 
+Video
+
+ - Video: https://www.youtube.com/watch?v=AKm7fvq1bv4
+
