@@ -52,6 +52,32 @@ ngrok config add-authtoken YOUR_AUTHTOKEN
 
 Get your token from: https://dashboard.ngrok.com/get-started/your-authtoken
 
+```bash
+/usr/local/bin/python3 -m ensurepip --upgrade
+/usr/local/bin/python3 -m pip install --upgrade pip setuptools wheel
+```
+
+```bash
+/usr/local/bin/python3 -m pip install --user opencv-python mediapipe flask flask-cors
+```
+
+```bash
+/usr/local/bin/python3 -m pip --version
+/usr/local/bin/python3 -m pip list
+```
+
+```bash
+/usr/local/bin/python3 -m venv myenv
+source myenv/bin/activate
+pip install --upgrade pip setuptools wheel
+pip install opencv-python mediapipe flask flask-cors
+python /Users/henrykent/Rock-Paper-Scissors-shoot/Main.py
+```
+
+```bash
+/usr/local/bin/python3 -m pip install --break-system-packages --user opencv-python mediapipe flask flask-cors
+```
+
 ---
 
 Run the App
@@ -71,6 +97,7 @@ Web Interface
 - **Current Word**: Letters translated in real time
 - **Finger State**: Binary values for thumb/index/middle/ring/pinky
 - **Clear**: Button to reset the current word
+- if the screen that should should the skeleton of your hand is black run the code again
 
 Recognized Letters
 
