@@ -41,6 +41,11 @@ git clone https://github.com/Keng-cryption/jetson-nano-AI.git
 ```bash
 pip install opencv-python mediapipe flask flask-cors pyngrok
 ```
+If on mac then
+
+```bash
+pip3 install opencv-python mediapipe flask flask-cors pyngrok
+```
 
 ### 3. (Optional) Set Your Ngrok Authtoken
 
@@ -51,6 +56,8 @@ ngrok config add-authtoken YOUR_AUTHTOKEN
 ```
 
 Get your token from: https://dashboard.ngrok.com/get-started/your-authtoken
+
+## If on mac and having a hard time installing all the packages try this
 
 ```bash
 /usr/local/bin/python3 -m ensurepip --upgrade
@@ -71,7 +78,7 @@ Get your token from: https://dashboard.ngrok.com/get-started/your-authtoken
 source myenv/bin/activate
 pip install --upgrade pip setuptools wheel
 pip install opencv-python mediapipe flask flask-cors
-python /Users/henrykent/Rock-Paper-Scissors-shoot/Main.py
+python /Users/UR NAME/Asl-ai-translator/asl_local_host.py
 ```
 
 ```bash
